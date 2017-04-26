@@ -1,0 +1,501 @@
+1.DAY2
+FLASHCARD
+public class FlashCard {
+
+	private String subject;
+	private String question;
+	private String answer;
+	
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public String getQuestion() {
+		return question;
+	}
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+	public String getAnswer() {
+		return answer;
+	}
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+	
+	@Override
+	public String toString() {
+		return "FlashCard [subject=" + subject + ", question=" + question
+				+ ", answer=" + answer + "]";
+	}
+	
+	
+}
+
+********************************************************
+2.DAY3
+CARD:
+public abstract class Card {
+
+	private String subject;
+	private String question;
+	private String answer;
+	
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public String getQuestion() {
+		return question;
+	}
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+	public String getAnswer() {
+		return answer;
+	}
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+}
+------------------
+CARD SEARCHABLE:
+public interface CardSearchable {
+
+	Card serarchCard(String sub) throws CardNotFoundException;
+	
+	
+}
+----------------------
+FLASH CARD EXTEND
+public class FlashCard_1 extends Card
+{
+	private String subject;
+	private String question;
+	private String answer;
+	
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public String getQuestion() {
+		return question;
+	}
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+	public String getAnswer() {
+		return answer;
+	}
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+	
+	@Override
+	public String toString() {
+		return "FlashCard [subject=" + subject + ", question=" + question
+				+ ", answer=" + answer + "]";
+	}
+	
+	public FlashCard_1(String subject, String question, String answer) {
+		super();
+		this.subject = subject;
+		this.question = question;
+		this.answer = answer;
+	}
+	
+	public FlashCard_1() {
+		// TODO Auto-generated constructor stub
+	}
+	public void displayCard()
+	{
+		System.out.println("subject is : "+this.subject);
+		System.out.println("question is :"+this.question);
+		System.out.println("answer is :"+this.answer);
+	}
+	
+}
+----------------------------------------------
+FLASH CARDS DATA
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+public class FlashCardsData implements CardSearchable {
+
+	FlashCard_1 f[] = new FlashCard_1[4];
+
+	
+	/*ArrayList<FlashCard_1> myCardsList  =  new ArrayList<FlashCard_1>();*/
+	
+	
+	int flag = 0;
+	FlashCard_1 fc ;
+	
+	@Override
+	public Card serarchCard(String sub) throws CardNotFoundException {
+		// TODO Auto-generated method stub
+		
+		for(int i=0;i<f.length;i++)
+		{
+			if (f[i].getSubject().equals(sub))
+			{	
+				flag = 1;
+				//System.out.println(f[i]);
+				fc=f[i];
+			}			
+		}
+
+		if (flag==0)
+		{
+			throw new CardNotFoundException("The card you are looking for is not available”");
+		}
+		else
+			return fc;
+	}
+	
+	public void loadData()   {
+		
+		FileReader fr = null;
+		
+		try {
+			
+			 fr = new FileReader("cards_data.txt");
+			 BufferedReader br = new BufferedReader(fr);
+			 
+			 String msg ;
+			 while((msg=br.readLine()) != null)
+			 {
+				 StringTokenizer st = new StringTokenizer(msg,";");
+				 while(st.hasMoreTokens())
+				 {
+					 String subject = st.nextToken();
+					 
+					 String question = st.nextToken();
+					 
+					 String answer = st.nextToken();
+				 }
+			 }
+			
+			int ch;
+			while((ch = fr.read()) != -1)
+			{
+				System.out.print((char)ch);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		finally
+		{
+			try {
+				fr.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+		
+
+}
+-----------------------------
+FLASHCARD TEST
+import java.io.File;
+import java.util.Scanner;
+public class FlashCardTest {
+public static void main(String[] args) {
+
+		FlashCardsData fcd = new FlashCardsData();
+		
+		/*File f2 = new File("cards_data.txt");*/
+	
+		/*Scanner sc = new Scanner(System.in);
+		
+		for (int i = 0; i < 4; i++) 
+		{
+			fcd.f[i] = new FlashCard_1();
+			
+			System.out.println("enter subj");
+			fcd.f[i].setSubject(sc.nextLine());
+			
+			System.out.println("enter question");
+			fcd.f[i].setQuestion(sc.nextLine());
+			
+			System.out.println("enter answer");
+			fcd.f[i].setAnswer(sc.nextLine());
+		}
+		
+		System.out.println("enter sub u want to search");
+		String sub = sc.next();
+		try {
+			System.out.println(fcd.serarchCard(sub));
+		} catch (CardNotFoundException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			System.out.println("The card you are looking for is not available");
+		}*/
+			
+		fcd.loadData();
+		
+	}
+	
+
+}
+--------------------
+FLASHCARD TEST2
+import java.io.File;
+import java.util.Scanner;
+
+
+
+public class FlashCardTest_1 extends Thread {
+
+	public static void main(String[] args) {
+
+		FlashCardsdata_1 fcd = new FlashCardsdata_1();
+		
+		fcd.loadData();
+
+		//File f2 = new File("cards_data.txt");
+
+		Scanner sc = new Scanner(System.in);
+
+		/*for (int i = 0; i < 4; i++) 
+		{
+			fcd.f[i] = new FlashCard_1();
+
+			FlashCard_1 fs = new FlashCard_1();
+
+			System.out.println("enter subj");
+			fs.setSubject(sc.next());
+
+			System.out.println("enter question");
+			fs.setQuestion(sc.nextLine());
+
+			System.out.println("enter answer");
+			fs.setAnswer(sc.nextLine());
+
+			fcd.myCardsList.add(fs);
+		}
+*/
+		System.out.println("enter sub u want to search");
+		String sub = sc.next();
+		try {
+			System.out.println(fcd.serarchCard(sub).getQuestion());
+			sleep(10000);
+			System.out.println(fcd.serarchCard(sub).getAnswer());
+			
+		} catch (CardNotFoundException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			System.out.println("The card you are looking for is not available");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
+------------------------
+DAY4
+public class CardNotFoundException extends Exception {
+
+	public CardNotFoundException(String string) {
+		// TODO Auto-generated constructor stub
+	}
+
+}
+-------------------------
+DAY5
+import java.util.Scanner;
+public class DisplayThread extends Thread {
+static FlashCardsData fcd;	
+public static void main(String[] args) {
+		
+		fcd = new FlashCardsData();
+		
+		Scanner sc = new Scanner(System.in);
+		
+		for (int i = 0; i < 4; i++) 
+		{
+			fcd.f[i] = new FlashCard_1();
+			
+			System.out.println("enter subj");
+			fcd.f[i].setSubject(sc.nextLine());
+			
+			System.out.println("enter question");
+			fcd.f[i].setQuestion(sc.nextLine());
+			
+			System.out.println("enter answer");
+			fcd.f[i].setAnswer(sc.nextLine());
+		}
+		
+		DisplayThread dt = new DisplayThread();
+		dt.start();
+	}
+
+	@Override
+	public void run() {
+		
+		for (int i = 0; i < 4; i++) {
+			
+			System.out.println(fcd.f[i]);
+			try {
+				sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
+			super.run();
+			
+		}
+		
+		
+	}
+	
+}
+************************************
+DAY6
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+
+public class FlashCardsdata_1 implements CardSearchable {
+
+
+	/*FlashCard_1 f[] = new FlashCard_1[4];*/
+
+	ArrayList<FlashCard_1> myCardsList  =  new ArrayList<FlashCard_1>();
+
+
+	int flag = 0;
+	FlashCard_1 fc ;
+
+	@Override
+	public Card serarchCard(String sub) throws CardNotFoundException 
+	{
+		// TODO Auto-generated method stub
+		for(int i=0;i<myCardsList.size();i++)
+		{
+			if (myCardsList.get(i).getSubject().equals(sub))
+			{	
+				flag = 1;
+				//System.out.println(f[i]);
+				fc=myCardsList.get(i);
+			}			
+		}
+
+		if (flag==0)
+		{
+			throw new CardNotFoundException("The card you are looking for is not available”");
+		}
+		else
+			return fc;
+	}
+
+	public void loadData()   {
+
+		FileReader fr = null;
+
+		try {
+			
+			fr = new FileReader("cards_data.txt");
+			BufferedReader br = new BufferedReader(fr);
+
+			String msg ;
+			while((msg=br.readLine()) != null)
+			{
+				FlashCard_1 fc = new FlashCard_1();
+				
+				StringTokenizer st = new StringTokenizer(msg,";");
+				while(st.hasMoreTokens())
+				{
+					String subject = st.nextToken();
+
+					String question = st.nextToken();
+
+					String answer = st.nextToken();
+					
+					fc.setSubject(subject);
+					fc.setQuestion(question);
+					fc.setAnswer(answer);
+					myCardsList.add(fc);
+				}
+				
+			}
+
+			int ch;
+			while((ch = fr.read()) != -1)
+			{
+				System.out.print((char)ch);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		finally
+		{
+			try {
+				fr.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+}
+**************************************
+MAIN FUNCTION
+import java.util.Scanner;
+
+
+public class FlashCardMain {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		FlashCard f[] = new FlashCard[4]; 
+		
+		for (int i = 0; i < 2; i++)
+		{
+			f[i] = new FlashCard();
+			System.out.println("enter subject");
+			f[i].setSubject(sc.next());
+			
+			System.out.println("enter your question");
+			f[i].setQuestion(sc.next());
+			
+			System.out.println("enter answer for question");
+			f[i].setAnswer(sc.next());		
+			
+		}
+		
+		for (int i = 0; i < 2; i++) {
+			System.out.println(f[i]);
+		}
+
+	}
+}
+**********************************************
+
